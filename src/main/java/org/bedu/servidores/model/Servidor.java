@@ -1,11 +1,6 @@
 package org.bedu.servidores.model;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,9 +9,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.List;
+import java.util.ArrayList;
+
 
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Data
@@ -27,6 +24,7 @@ public class Servidor {
     private long id;
 
     @Column
+    @NotBlank(message="La IP es obligatoria")
     @Pattern(regexp = "^([0-1]?\\d?\\d|2[0-4]\\d|25[0-5])(\\.([0-1]?\\d?\\d|2[0-4]\\d|25[0-5])){3}$",
             message = "Formato de IP no valido")
     @Size(min = 7, max = 15, message = "La IP debe tener entre 5 y 30 caracteres")
@@ -38,14 +36,15 @@ public class Servidor {
     private String nombre;
 
     @Column
-    @NotBlank(message="El nombre el obligatorio")
+    @NotBlank(message="La descripcion es obligatoria")
     @Size(min = 10, max = 50, message = "La descripcion debe tener entre 5 y 30 letras")
     private String descripcion;
 
     /*Relaciones con otras entidades*/
     @OneToMany
-    @JoinColumn(name="server_id")
-    Set<Aplicacion> aplicaciones;
+    @JsonIgnore
+    @JoinColumn(name="servidor_id")
+    private List<Aplicacion> aplicaciones =  new ArrayList<>();
 
     /*Campos de control de creacion y actualizacion*/
     @Column(name="created_at")

@@ -1,4 +1,5 @@
 package org.bedu.servidores.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,8 +8,9 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,12 +32,14 @@ public class Aplicacion {
 
     /*Relaciones con otras entidades*/
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="servidor_id",referencedColumnName = "id",nullable = false)
     private Servidor servidor;
 
     @OneToMany
+    @JsonIgnore
     @JoinColumn(name="credencial_id")
-    Set<Credencial> credenciales;
+    private List<Credencial> credenciales = new ArrayList<>();
 
     /*Campos de control de creacion y actualizacion*/
     @Column(name="created_at")

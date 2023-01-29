@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +16,8 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Data
@@ -35,10 +37,20 @@ public class Usuario {
     @Email(message = "Formato de correo electronico invalido")
     private String correo;
 
+    @Column
+    @NotBlank(message="El password es obligatorio")
+    @Size(min = 5, max = 15, message = "El password debe estar entre entre 5 y 15 caracteres")
+    private String password;
+
+    @Column
+    @NotBlank(message="El rol de usuario es obligatorio")
+    @Pattern(regexp = "ADM|USU", message = "El rol debe ser 'ADM' o 'USU'")
+    private String rol;
+
     /*Relaciones con otras entidades*/
     @OneToMany
     @JoinColumn(name="usuario_id")
-    Set<Credencial> credenciales;
+    private List<Credencial> credenciales = new ArrayList<>();
 
     /*Campos de control de creacion y actualizacion*/
     @Column(name="created_at")
