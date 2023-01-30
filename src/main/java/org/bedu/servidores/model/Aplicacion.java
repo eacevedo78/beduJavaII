@@ -38,7 +38,7 @@ public class Aplicacion {
 
     @OneToMany
     @JsonIgnore
-    @JoinColumn(name="credencial_id")
+    @JoinColumn(name="aplicacion_id")
     private List<Credencial> credenciales = new ArrayList<>();
 
     /*Campos de control de creacion y actualizacion*/

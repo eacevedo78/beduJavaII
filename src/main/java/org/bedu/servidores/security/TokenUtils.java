@@ -38,4 +38,16 @@ public class TokenUtils {
             return null;
         }
     }
+
+    public static String getRol(String token){
+        try {
+            Claims claims = Jwts.parserBuilder().setSigningKey(ACCESS_TOKEN_SECRET.getBytes()).
+                    build().
+                    parseClaimsJws(token).getBody();
+            String rol = claims.get("rol",String.class);
+            return rol;
+        }catch(JwtException ex){
+            return null;
+        }
+    }
 }

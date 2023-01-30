@@ -1,4 +1,5 @@
 package org.bedu.servidores.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class Usuario {
 
     @Column
     @NotBlank(message="El password es obligatorio")
-    @Size(min = 5, max = 15, message = "El password debe estar entre entre 5 y 15 caracteres")
+    @Size(min = 5, message = "El password debe tener 5 caracteres minimo.")
     private String password;
 
     @Column
@@ -49,6 +50,7 @@ public class Usuario {
 
     /*Relaciones con otras entidades*/
     @OneToMany
+    @JsonIgnore
     @JoinColumn(name="usuario_id")
     private List<Credencial> credenciales = new ArrayList<>();
 

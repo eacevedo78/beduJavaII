@@ -1,6 +1,8 @@
 package org.bedu.servidores.controller;
 
+import org.bedu.servidores.model.Aplicacion;
 import org.bedu.servidores.model.Servidor;
+import org.bedu.servidores.repos.AplicacionRepository;
 import org.bedu.servidores.repos.ServidorRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 
 
-@WebMvcTest(ServidorController.class)
+@WebMvcTest(AplicacionController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class ServidorControllerTest {
+class AplicacionControllerTest {
+    @MockBean
+    private AplicacionRepository ar;
     @MockBean
     private ServidorRepository sr;
     @Autowired
@@ -35,67 +39,70 @@ class ServidorControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void consultarServidores() throws Exception{
-        mockMvc.perform(get("/servidores"))
+    void consultarAplicaciones() throws Exception{
+        Long id=1l;
+        Aplicacion a = new Aplicacion();
+        a.setId(id);
+        when(ar.findById(id)).thenReturn(Optional.of(a));
+        mockMvc.perform(get("/servidor/1/aplicaciones"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void consultarServidor() throws Exception {
+    void consultarAplicacion() throws Exception {
         long id = 1L;
-        Servidor s = new Servidor();
+        Aplicacion s = new Aplicacion();
         s.setId(id);
-        s.setNombre("Servidor de prueba");
-        s.setDescripcion("Este es un servidor de desarrollo");
-        s.setIp("5.5.5.5");
-        when(sr.findById(id)).thenReturn(Optional.of(s));
-        mockMvc.perform(get("/servidor/{id}", id)).andExpect(status().isOk())
+        s.setNombre("Aplicacion de prueba");
+        s.setVersion("5.5");
+        when(ar.findById(id)).thenReturn(Optional.of(s));
+        mockMvc.perform(get("/servidor/1/aplicacion/{id}", id)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.nombre").value(s.getNombre()))
                 .andDo(print());
     }
 
     @Test
-    void crearServidor() throws Exception {
-        Servidor s = new Servidor();
-        s.setNombre("Servidor de prueba");
-        s.setDescripcion("Este es un servidor de desarrollo");
-        s.setIp("5.5.5.5");
-        mockMvc.perform(post("/servidor").contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJub21icmUiOiJlbW1hbnVlbEBnbWFpbC5jb20iLCJyb2wiOiJBRE1JTiJ9.ZMulk2x0yIxOQrGv-__0ucWC6wzxR8-pXb0wlAKwAL4")
+    void crearAplicacion() throws Exception {
+        Aplicacion s = new Aplicacion();
+        s.setId(1l);
+        s.setNombre("Aplicacion de prueba");
+        s.setVersion("5.5");
+        when(sr.findById(1l)).thenReturn(Optional.of(new Servidor()));
+        mockMvc.perform(post("/servidor/1/aplicacion").contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(s)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    void actualzarServidor() throws Exception {
+    void actualzarAplicacion() throws Exception {
         long id = 1L;
-        Servidor s = new Servidor();
-        s.setNombre("Servidor de prueba");
-        s.setDescripcion("Este es un servidor de desarrollo");
-        s.setIp("5.5.5.5");
-        when(sr.findById(id)).thenReturn(Optional.of(s));
-        mockMvc.perform(put("/servidor/1").contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
+        Aplicacion s = new Aplicacion();
+        s.setId(id);
+        s.setNombre("Aplicacion de prueba");
+        s.setVersion("5.5");
+        when(ar.findById(id)).thenReturn(Optional.of(s));
+        when(sr.findById(1l)).thenReturn(Optional.of(new Servidor()));
+        mockMvc.perform(put("/servidor/1/aplicacion/1").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(s)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    void eliminarServidor() throws Exception {
+    void eliminarAplicacion() throws Exception {
         long id = 1L;
-        Servidor s = new Servidor();
+        Aplicacion s = new Aplicacion();
         s.setId(id);
-        s.setNombre("Servidor de prueba");
-        s.setDescripcion("Este es un servidor de desarrollo");
-        s.setIp("5.5.5.5");
+        s.setNombre("Aplicacion de prueba");
+        s.setVersion("5.5");
         //when(sr.findById(id)).thenReturn(Optional.of(s));
-        doNothing().when(sr).deleteById(id);
-        mockMvc.perform(delete("/servidor/{id}", id).header("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJub21icmUiOiJlZGlhekBnbWFpbC5jb20iLCJyb2wiOiJBRE0ifQ.5qZp1oMIiH4AJtod2K8ClOnGpzvaSptFe-deiZ1NGWI"))
+        doNothing().when(ar).deleteById(id);
+        mockMvc.perform(delete("/servidor/aplicacion/{id}", id).header("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJub21icmUiOiJlZGlhekBnbWFpbC5jb20iLCJyb2wiOiJBRE0ifQ.5qZp1oMIiH4AJtod2K8ClOnGpzvaSptFe-deiZ1NGWI"))
                 .andExpect(status().isNotFound())
                 .andDo(print());
-        /*mockMvc.perform(get("/servidor/{id}", id))
+        /*mockMvc.perform(get("/usuario/{id}", id))
                 .andExpect(status().isNotFound())
                 .andDo(print());*/
     }

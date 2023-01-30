@@ -5,6 +5,6 @@ import org.bedu.servidores.model.Aplicacion;
 import java.util.List;
 
 public interface AplicacionRepository extends JpaRepository<Aplicacion,Long> {
-    List<Aplicacion> findByServidor_Id(Long id);
+    List<Aplicacion> findByServidor_Id(Long servidorId);
 
 }

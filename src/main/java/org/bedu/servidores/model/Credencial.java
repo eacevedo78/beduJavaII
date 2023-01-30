@@ -24,7 +24,7 @@ public class Credencial {
 
     @Column
     @NotBlank(message="El password es obligatorio")
-    @Size(min = 8, max = 15, message = "El nombre debe tener entre 8 y 15 caracteres")
+    @Size(min = 5, max = 15, message = "El password debe tener entre 5 y 15 caracteres")
     private String password;
 
     /*Relaciones con otras entidades*/

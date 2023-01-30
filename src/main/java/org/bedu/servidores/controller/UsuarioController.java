@@ -23,6 +23,15 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
+    //Consultar un usuario por id
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<Usuario> consultarUsuario(@PathVariable Long id){
+        Usuario usu = usuarioRepository.findById(id).orElseGet(()->null);
+        if(usu == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"El usuario no existe");
+        return ResponseEntity.ok(usu);
+    }
+
     //Crear un nuevo usuario
     @PostMapping("/usuario")
     public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody Usuario usuario){
@@ -34,7 +43,14 @@ public class UsuarioController {
     @PutMapping("/usuario/{id}")
     public ResponseEntity<Usuario> modificarUsuario(@PathVariable Long id,
                                                         @Valid @RequestBody Usuario usuario ){
-        Usuario usu = usuarioRepository.save(usuario);
+        Usuario usu = usuarioRepository.findById(id).orElseGet(()->null);
+        if(usu == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"El usuario no existe");
+        usu.setCorreo(usuario.getCorreo());
+        usu.setNombre(usuario.getNombre());
+        usu.setRol(usuario.getRol());
+        usu.setPassword(usuario.getPassword());
+        usu = usuarioRepository.save(usu);
         return ResponseEntity.ok(usu);
     }
 
@@ -49,6 +65,7 @@ public class UsuarioController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,"El usuario tiene credenciales asignadas");
         else
             usuarioRepository.deleteById(id);
+
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
