@@ -1,2 +1,5 @@
+/home/emmanuel/beduJavaIIServers/src/test/java/org/bedu/servidores/controller/AplicacionControllerTest.java
 /home/emmanuel/beduJavaIIServers/src/test/java/org/bedu/servidores/ServidoresApplicationTests.java
+/home/emmanuel/beduJavaIIServers/src/test/java/org/bedu/servidores/controller/CredencialControllerTest.java
 /home/emmanuel/beduJavaIIServers/src/test/java/org/bedu/servidores/controller/ServidorControllerTest.java
+/home/emmanuel/beduJavaIIServers/src/test/java/org/bedu/servidores/controller/UsuarioControllerTest.java

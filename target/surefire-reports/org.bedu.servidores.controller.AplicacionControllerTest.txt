@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.bedu.servidores.controller.AplicacionControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.367 s - in org.bedu.servidores.controller.AplicacionControllerTest

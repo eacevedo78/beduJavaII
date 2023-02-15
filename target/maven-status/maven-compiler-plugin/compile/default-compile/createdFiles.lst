@@ -20,3 +20,4 @@ org/bedu/servidores/model/Credencial.class
 org/bedu/servidores/security/JWTAuthenticationFilter.class
 org/bedu/servidores/repos/AplicacionRepository.class
 org/bedu/servidores/repos/UsuarioRepository.class
+org/bedu/servidores/security/WebMvcConfig.class

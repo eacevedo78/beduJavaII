@@ -1,1 +1,5 @@
 org/bedu/servidores/ServidoresApplicationTests.class
+org/bedu/servidores/controller/AplicacionControllerTest.class
+org/bedu/servidores/controller/CredencialControllerTest.class
+org/bedu/servidores/controller/ServidorControllerTest.class
+org/bedu/servidores/controller/UsuarioControllerTest.class

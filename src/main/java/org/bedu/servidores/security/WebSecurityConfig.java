@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @AllArgsConstructor
@@ -32,11 +36,23 @@ public class WebSecurityConfig {
         jwtAuthenticationFilter.setAuthenticationManager(authManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
-        return http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().
+        return http.cors(Customizer.withDefaults()).
+                csrf().disable().authorizeRequests().anyRequest().authenticated().and().
                 httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().addFilter(jwtAuthenticationFilter).
                 addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class).build();
 
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration conf = new CorsConfiguration();
+        conf.setAllowedOrigins(java.util.Arrays.asList("*"));
+        conf.setAllowedMethods(java.util.Arrays.asList("*"));
+        conf.setAllowedHeaders(java.util.Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",conf);
+        return source;
     }
 
    /* @Bean

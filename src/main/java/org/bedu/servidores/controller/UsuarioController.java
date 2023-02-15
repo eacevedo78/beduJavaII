@@ -32,6 +32,14 @@ public class UsuarioController {
         return ResponseEntity.ok(usu);
     }
 
+    @GetMapping("/usuario/correo/{correo}")
+    public ResponseEntity<Usuario> consultaRol(@PathVariable String correo){
+        Usuario usu = usuarioRepository.findOneByCorreo(correo).orElseGet(()->null);
+        if(usu == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"El usuario no existe");
+        return ResponseEntity.ok(usu);
+    }
+
     //Crear un nuevo usuario
     @PostMapping("/usuario")
     public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody Usuario usuario){
