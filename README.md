@@ -81,3 +81,4 @@ erDiagram
 
 ### Video de explicación
 
+https://youtu.be/_WYGm6itK-I
