@@ -1,4 +1,5 @@
 package org.bedu.servidores.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -30,18 +31,26 @@ public class Credencial {
     /*Relaciones con otras entidades*/
     @ManyToOne
     @JoinColumn(name="usuario_id",referencedColumnName = "id",nullable = false)
+
     private Usuario usuario;
+    public long getUsuario(){
+        return this.usuario.getId();
+    }
 
     @ManyToOne
     @JoinColumn(name="aplicacion_id",referencedColumnName = "id",nullable = false)
     private Aplicacion aplicacion;
 
+
+
     /*Campos de control de creacion y actualizacion*/
     @Column(name="created_at")
     @CreationTimestamp
+    @JsonIgnore
     private Date createdAt;
 
     @Column(name="updated_at")
     @UpdateTimestamp
+    @JsonIgnore
     private Date updatedAt;
 }

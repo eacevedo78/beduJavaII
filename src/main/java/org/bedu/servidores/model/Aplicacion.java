@@ -44,9 +44,11 @@ public class Aplicacion {
     /*Campos de control de creacion y actualizacion*/
     @Column(name="created_at")
     @CreationTimestamp
+    @JsonIgnore
     private Date createdAt;
 
     @Column(name="updated_at")
     @UpdateTimestamp
+    @JsonIgnore
     private Date updatedAt;
 }
