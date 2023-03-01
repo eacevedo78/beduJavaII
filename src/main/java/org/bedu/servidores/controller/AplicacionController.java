@@ -2,9 +2,11 @@ package org.bedu.servidores.controller;
 
 import jakarta.validation.Valid;
 import org.bedu.servidores.model.Aplicacion;
+import org.bedu.servidores.model.AppSrv;
 import org.bedu.servidores.model.Servidor;
 import org.bedu.servidores.repos.AplicacionRepository;
 import org.bedu.servidores.repos.ServidorRepository;
+import org.hibernate.annotations.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +24,9 @@ public class AplicacionController {
 
     //Consulta todas las aplicaciones que hay en la BD
     @GetMapping("/aplicaciones")
-    public ResponseEntity<List<Aplicacion>> consultarAplicaciones(){
-        List<Aplicacion> aplicaciones = aplicacionRepository.findAll();
+    public ResponseEntity<List<AppSrv>> consultarAplicaciones(){
+        //List<Aplicacion> aplicaciones = aplicacionRepository.findAll();
+        List<AppSrv> aplicaciones = aplicacionRepository.findAllWithServidor();
         return ResponseEntity.ok(aplicaciones);
     }
 
