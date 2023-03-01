@@ -37,7 +37,7 @@ public class Servidor {
 
     @Column
     @NotBlank(message="La descripcion es obligatoria")
-    @Size(min = 10, max = 50, message = "La descripcion debe tener entre 5 y 30 letras")
+    @Size(min = 5, max = 50, message = "La descripcion debe tener entre 5 y 30 letras")
     private String descripcion;
 
     /*Relaciones con otras entidades*/
