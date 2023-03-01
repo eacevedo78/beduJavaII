@@ -76,7 +76,7 @@ public class CredencialController {
         Aplicacion app = aplicacionRepository.findById(aplicacionId).orElseGet(()->null);
         if(usu != null && app != null && cred != null) {
             cred.setAplicacion(app);
-            System.out.println(app.getNombre());
+            //System.out.println(app.getNombre());
             /*credencial.setUsuario(usu);*/
             cred.setLogin(credencial.getLogin());
             cred.setPassword(credencial.getPassword());
